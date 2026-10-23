@@ -6,7 +6,7 @@ import pandas as pd
 from sklearn.dummy import DummyClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import StratifiedKFold, cross_validate
+from sklearn.model_selection import GridSearchCV, StratifiedKFold, cross_validate
 
 from latedeliveries.pipeline import (
     RANDOM_STATE,
@@ -85,27 +85,79 @@ def compare_models(X_train, y_train):
     return pd.DataFrame(results)
 
 
-def main():
-    """Run the initial model comparison."""
+def tune_model(X_train, y_train):
+    """Tune Logistic Regression using training data only."""
 
-    # Generate data and create the train/test split.
+    pipeline = build_pipeline(
+        LogisticRegression(
+            max_iter=1000,
+            random_state=RANDOM_STATE,
+        )
+    )
+
+    param_grid = {
+        "model__C": [0.01, 0.1, 1, 10],
+        "model__solver": ["lbfgs", "liblinear"],
+    }
+
+    grid_search = GridSearchCV(
+        estimator=pipeline,
+        param_grid=param_grid,
+        scoring="roc_auc",
+        cv=CV,
+        n_jobs=-1,
+    )
+
+    grid_search.fit(X_train, y_train)
+
+    print("\nBest hyperparameters:")
+    print(grid_search.best_params_)
+
+    print("\nBest cross-validation ROC-AUC:")
+    print(grid_search.best_score_)
+
+    return grid_search
+
+
+def main():
+    """Compare models and tune Logistic Regression."""
+
     X_train, _X_test, y_train, _y_test = load_and_split()
 
-    # Compare models using training data only.
+    # Compare models
     results = compare_models(X_train, y_train)
 
-    # Create reports directory if needed.
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Save results.
-    output_file = REPORTS_DIR / "cv_results.csv"
-    results.to_csv(output_file, index=False)
+    results.to_csv(
+        REPORTS_DIR / "cv_results.csv",
+        index=False,
+    )
 
     print("\nCross-validation results:")
     print(results.round(3).to_string(index=False))
 
-    print(f"\nResults saved to: {output_file}")
+    # Tune selected model
+    grid_search = tune_model(X_train, y_train)
 
+    # Compare tuned and untuned ROC-AUC
+    untuned = results.loc[results["model"] == "LogisticRegression"].iloc[0]
+
+    improvement = grid_search.best_score_ - untuned["roc_auc_mean"]
+
+    print("\nUntuned ROC-AUC:", untuned["roc_auc_mean"])
+    print("Tuned ROC-AUC:", grid_search.best_score_)
+    print("Improvement:", improvement)
+    print("Fold-to-fold standard deviation:", untuned["roc_auc_std"])
+
+    if improvement > untuned["roc_auc_std"]:
+        print("Improvement exceeds the fold-to-fold spread.")
+    else:
+        print("Improvement does not exceed the fold-to-fold spread.")
+
+
+if __name__ == "__main__":
+    main()
 
 if __name__ == "__main__":
     main()
