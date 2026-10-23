@@ -1,4 +1,3 @@
-
 """Feature selection, data splitting, and preprocessing pipeline."""
 
 from sklearn.compose import ColumnTransformer
@@ -64,9 +63,7 @@ def build_pipeline(model):
     )
 
     # Encode categories and ignore unseen categories.
-    categorical_transformer = OneHotEncoder(
-        handle_unknown="ignore"
-    )
+    categorical_transformer = OneHotEncoder(handle_unknown="ignore")
 
     # Apply the appropriate preprocessing to each column.
     preprocessor = ColumnTransformer(
