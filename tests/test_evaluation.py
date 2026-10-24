@@ -1,32 +1,25 @@
 """Tests for QuickBite cost calculations and threshold selection."""
 
 import numpy as np
+import pytest
 
 from latedeliveries.evaluation import calculate_cost, find_best_threshold
 
 
-def test_no_flags_cost():
-    """Missing two late orders costs $30."""
+@pytest.mark.parametrize(
+    ("predictions", "expected_cost"),
+    [
+        ([0, 0, 0, 0], 30),  # Flag nobody
+        ([1, 1, 1, 1], 16),  # Flag everybody
+        ([1, 0, 0, 0], 19),  # One flag and one missed late order
+    ],
+)
+def test_calculate_cost(predictions, expected_cost):
+    """Check voucher costs for different prediction scenarios."""
     y_true = np.array([1, 0, 1, 0])
-    y_pred = np.array([0, 0, 0, 0])
+    y_pred = np.array(predictions)
 
-    assert calculate_cost(y_true, y_pred) == 30
-
-
-def test_all_flags_cost():
-    """Flagging four orders costs $16."""
-    y_true = np.array([1, 0, 1, 0])
-    y_pred = np.array([1, 1, 1, 1])
-
-    assert calculate_cost(y_true, y_pred) == 16
-
-
-def test_mixed_predictions_cost():
-    """One flagged order and one missed late order costs $19."""
-    y_true = np.array([1, 0, 1, 0])
-    y_pred = np.array([1, 0, 0, 0])
-
-    assert calculate_cost(y_true, y_pred) == 19
+    assert calculate_cost(y_true, y_pred) == expected_cost
 
 
 def test_best_threshold():
