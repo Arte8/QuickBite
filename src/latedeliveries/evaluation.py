@@ -1,4 +1,3 @@
-
 """Cost calculation and threshold optimization."""
 
 import numpy as np
@@ -31,10 +30,7 @@ def calculate_cost(y_true, y_pred):
     # Every late order not flagged costs $15
     missed_late = np.sum((y_true == 1) & (y_pred == 0))
 
-    total_cost = (
-        VOUCHER_COST * flagged
-        + MISSED_LATE_COST * missed_late
-    )
+    total_cost = VOUCHER_COST * flagged + MISSED_LATE_COST * missed_late
 
     return int(total_cost)
 
@@ -45,9 +41,7 @@ def find_best_threshold(y_true, probabilities):
     results = []
 
     for threshold in THRESHOLDS:
-        predictions = (
-            np.asarray(probabilities) >= threshold
-        ).astype(int)
+        predictions = (np.asarray(probabilities) >= threshold).astype(int)
 
         cost = calculate_cost(y_true, predictions)
 
@@ -68,24 +62,14 @@ def find_best_threshold(y_true, probabilities):
 def classification_metrics(y_true, probabilities, threshold):
     """Calculate classification metrics at a chosen threshold."""
 
-    predictions = (
-        np.asarray(probabilities) >= threshold
-    ).astype(int)
+    predictions = (np.asarray(probabilities) >= threshold).astype(int)
 
     return {
         "accuracy": float(accuracy_score(y_true, predictions)),
-        "precision": float(
-            precision_score(y_true, predictions, zero_division=0)
-        ),
-        "recall": float(
-            recall_score(y_true, predictions, zero_division=0)
-        ),
-        "f1": float(
-            f1_score(y_true, predictions, zero_division=0)
-        ),
-        "roc_auc": float(
-            roc_auc_score(y_true, probabilities)
-        ),
+        "precision": float(precision_score(y_true, predictions, zero_division=0)),
+        "recall": float(recall_score(y_true, predictions, zero_division=0)),
+        "f1": float(f1_score(y_true, predictions, zero_division=0)),
+        "roc_auc": float(roc_auc_score(y_true, probabilities)),
         "confusion_matrix": confusion_matrix(
             y_true, predictions, labels=[0, 1]
         ).tolist(),

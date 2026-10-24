@@ -1,5 +1,3 @@
-
-import pandas as pd
 from sklearn.linear_model import LogisticRegression
 
 from latedeliveries.pipeline import (
@@ -15,9 +13,7 @@ print("Testing samples:", len(X_test))
 print("Training late rate:", y_train.mean())
 
 # Build and train pipeline using training data only
-pipeline = build_pipeline(
-    LogisticRegression(max_iter=1000, random_state=42)
-)
+pipeline = build_pipeline(LogisticRegression(max_iter=1000, random_state=42))
 
 pipeline.fit(X_train, y_train)
 
@@ -32,4 +28,3 @@ new_order["weather"] = "hail"
 probability = pipeline.predict_proba(new_order)[0, 1]
 
 print("Predicted late probability:", probability)
-

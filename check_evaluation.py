@@ -1,4 +1,3 @@
-
 from latedeliveries.evaluation import (
     calculate_cost,
     find_best_threshold,
@@ -18,9 +17,7 @@ cost = calculate_cost(y_true, predictions)
 print("Cost at threshold 0.50:", cost)
 
 # Find lowest-cost threshold
-best_threshold, results = find_best_threshold(
-    y_true, probabilities
-)
+best_threshold, results = find_best_threshold(y_true, probabilities)
 
 print("Best threshold:", best_threshold)
 print("Lowest cost:", min(row["cost"] for row in results))
