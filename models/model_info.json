@@ -1,0 +1,45 @@
+{
+    "model": "LogisticRegression",
+    "random_state": 42,
+    "sklearn_version": "1.6.1",
+    "threshold": 0.3,
+    "numeric_features": [
+        "distance_km",
+        "items",
+        "hour",
+        "prep_minutes",
+        "courier_months"
+    ],
+    "categorical_features": [
+        "weather",
+        "day_type",
+        "vehicle"
+    ],
+    "best_parameters": {
+        "model__C": 0.01,
+        "model__solver": "liblinear"
+    },
+    "test_metrics": {
+        "accuracy": 0.852,
+        "precision": 0.53,
+        "recall": 0.452991452991453,
+        "f1": 0.48847926267281105,
+        "roc_auc": 0.7961275165066635,
+        "confusion_matrix": [
+            [
+                586,
+                47
+            ],
+            [
+                64,
+                53
+            ]
+        ],
+        "total_cost": 1360,
+        "policy_costs": {
+            "flag_nobody": 1755,
+            "flag_everybody": 3000,
+            "model": 1360
+        }
+    }
+}
