@@ -16,15 +16,11 @@ NUMERIC_FEATURES = [
     "distance_km",
     "items",
     "hour",
-    "prep_minutes",
-    "courier_months",
 ]
 
-# Categorical features available when the order is placed
 CATEGORICAL_FEATURES = [
     "weather",
     "day_type",
-    "vehicle",
 ]
 
 # Complete feature list
