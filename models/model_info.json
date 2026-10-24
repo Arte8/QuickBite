@@ -6,14 +6,11 @@
     "numeric_features": [
         "distance_km",
         "items",
-        "hour",
-        "prep_minutes",
-        "courier_months"
+        "hour"
     ],
     "categorical_features": [
         "weather",
-        "day_type",
-        "vehicle"
+        "day_type"
     ],
     "best_parameters": {
         "model__C": 0.01,

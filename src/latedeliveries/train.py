@@ -24,6 +24,8 @@ from latedeliveries.evaluation import (
     find_best_threshold,
 )
 from latedeliveries.pipeline import (
+    CATEGORICAL_FEATURES,
+    NUMERIC_FEATURES,
     RANDOM_STATE,
     build_pipeline,
     load_and_split,
@@ -227,18 +229,8 @@ def save_model(final_pipeline, best_threshold, grid_search, test_metrics):
         "random_state": RANDOM_STATE,
         "sklearn_version": sklearn.__version__,
         "threshold": float(best_threshold),
-        "numeric_features": [
-            "distance_km",
-            "items",
-            "hour",
-            "prep_minutes",
-            "courier_months",
-        ],
-        "categorical_features": [
-            "weather",
-            "day_type",
-            "vehicle",
-        ],
+        "numeric_features": NUMERIC_FEATURES,
+        "categorical_features": CATEGORICAL_FEATURES,
         "best_parameters": grid_search.best_params_,
         "test_metrics": test_metrics,
     }
