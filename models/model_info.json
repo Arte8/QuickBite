@@ -20,26 +20,26 @@
         "model__solver": "liblinear"
     },
     "test_metrics": {
-        "accuracy": 0.852,
-        "precision": 0.53,
-        "recall": 0.452991452991453,
-        "f1": 0.48847926267281105,
-        "roc_auc": 0.7961275165066635,
+        "accuracy": 0.844,
+        "precision": 0.5,
+        "recall": 0.41025641025641024,
+        "f1": 0.4507042253521127,
+        "roc_auc": 0.7653015757281159,
         "confusion_matrix": [
             [
-                586,
-                47
+                585,
+                48
             ],
             [
-                64,
-                53
+                69,
+                48
             ]
         ],
-        "total_cost": 1360,
+        "total_cost": 1419,
         "policy_costs": {
             "flag_nobody": 1755,
             "flag_everybody": 3000,
-            "model": 1360
+            "model": 1419
         }
     }
 }

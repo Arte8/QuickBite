@@ -15,6 +15,22 @@ pip install -e .
 
 The project uses Python 3.11. The requirements include scikit-learn, pandas, matplotlib, pytest, Ruff, and ipykernel.
 
+## Current Features
+
+| Column | Known when order is placed? | Decision |
+|---|---|---|
+| `distance_km` | Yes, if calculated from the delivery address | Keep |
+| `items` | Yes, from the order details | Keep |
+| `hour` | Yes, from the order timestamp | Keep |
+| `weather` | Yes, if current weather is available | Keep |
+| `day_type` | Yes, from the order date | Keep |
+| `vehicle` | Only if the vehicle is already assigned | Verify |
+| `courier_months` | Only if the courier is already assigned | Verify |
+| `prep_minutes` | No, if it represents actual preparation duration | Exclude |
+| `customer_rating` | No, recorded after delivery | Exclude |
+| `order_id` | Identifier, not a useful predictor | Exclude |
+| `late` | Target variable being predicted | Exclude |
+
 ## Run
 
 ```bash
@@ -68,14 +84,17 @@ The model should only be used at a point when all selected predictors are actual
 
 ### Model selection
 
-Four models were evaluated using five-fold stratified cross-validation.
 
-| Model | Accuracy (mean ± SD) | F1 (mean ± SD) | ROC-AUC (mean ± SD) |
-|---|---|---|---|
-| DummyClassifier | 0.844 ± 0.001 | 0.000 ± 0.000 | 0.500 ± 0.000 |
-| LogisticRegression | 0.862 ± 0.009 | 0.352 ± 0.064 | 0.795 ± 0.034 |
-| BalancedLogisticRegression | 0.737 ± 0.019 | 0.447 ± 0.034 | 0.795 ± 0.034 |
-| RandomForest | 0.858 ± 0.007 | 0.322 ± 0.066 | 0.764 ± 0.028 |
+### Model comparison
+
+
+| Model | Accuracy (mean ± SD) | Precision (mean ± SD) | Recall (mean ± SD) | F1 (mean ± SD) | ROC-AUC (mean ± SD) |
+|---|---|---|---|---|---|
+| DummyClassifier | 0.844 ± 0.001 | 0.000 ± 0.000 | 0.000 ± 0.000 | 0.000 ± 0.000 | 0.500 ± 0.000 |
+| LogisticRegression | 0.855 ± 0.014 | 0.607 ± 0.162 | 0.199 ± 0.058 | 0.298 ± 0.083 | 0.769 ± 0.028 |
+| BalancedLogisticRegression | 0.730 ± 0.024 | 0.322 ± 0.031 | 0.655 ± 0.054 | 0.432 ± 0.038 | 0.768 ± 0.028 |
+| RandomForest | 0.834 ± 0.013 | 0.447 ± 0.069 | 0.245 ± 0.058 | 0.313 ± 0.061 | 0.699 ± 0.023 |
+
 
 Logistic Regression was selected because it achieved the highest mean ROC-AUC among the evaluated models, although its advantage over Balanced Logistic Regression was negligible. It also provided higher accuracy and precision at the default threshold.
 
