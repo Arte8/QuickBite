@@ -9,8 +9,9 @@ Create the Conda environment using the `conda-forge` channel specified in `envir
 ```bash
 conda env create -f environment.yml
 conda activate lab05-late-deliveries
-pip install -r requirements.txt
-pip install -e .
+python -m pip install -r requirements.txt
+python -m pip install -e .
+
 ```
 
 The project uses Python 3.11. The requirements include scikit-learn, pandas, matplotlib, pytest, Ruff, and ipykernel.
