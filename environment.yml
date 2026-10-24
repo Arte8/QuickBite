@@ -1,11 +1,10 @@
 
-name: quickbite-lab05
-
+name: lab05-late-deliveries
 channels:
   - conda-forge
 
 dependencies:
-  - python=3.12
+  - python=3.11
   - pip
   - pip:
       - -r requirements.txt
