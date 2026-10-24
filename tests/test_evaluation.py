@@ -41,3 +41,35 @@ def test_best_threshold():
 
     assert np.isclose(best_threshold, 0.15)
     assert min(row["cost"] for row in results) == 12
+
+
+def test_threshold_prefers_flagging_nobody():
+    """Flagging nobody should be cheapest when no orders are late."""
+    y_true = np.array([0, 0, 0, 0])
+    probabilities = np.array([0.1, 0.2, 0.3, 0.4])
+
+    best_threshold, results = find_best_threshold(
+        y_true,
+        probabilities,
+    )
+
+    predictions = (probabilities >= best_threshold).astype(int)
+
+    assert predictions.sum() == 0
+    assert calculate_cost(y_true, predictions) == 0
+
+
+def test_threshold_prefers_flagging_everybody():
+    """Flagging everybody should be cheapest when all orders are late."""
+    y_true = np.array([1, 1, 1, 1])
+    probabilities = np.array([0.6, 0.7, 0.8, 0.9])
+
+    best_threshold, results = find_best_threshold(
+        y_true,
+        probabilities,
+    )
+
+    predictions = (probabilities >= best_threshold).astype(int)
+
+    assert predictions.sum() == 4
+    assert calculate_cost(y_true, predictions) == 16
