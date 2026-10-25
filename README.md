@@ -20,6 +20,13 @@ python -m pip install -e .
 ```bash
 python -m latedeliveries.train
 ```
+## Check it
+
+```bash
+python -m ruff format --check .
+python -m ruff check .
+python -m pytest
+```
 
 The project uses Python 3.11. The requirements include scikit-learn, pandas, matplotlib, pytest, Ruff, and ipykernel.
 
@@ -43,13 +50,7 @@ The project uses Python 3.11. The requirements include scikit-learn, pandas, mat
 
 This command generates the synthetic dataset, compares classification models, performs hyperparameter tuning, selects a cost-based threshold, evaluates the final model, and saves the outputs.
 
-## Check it
 
-```bash
-python -m ruff format --check .
-python -m ruff check .
-python -m pytest
-```
 
 All 12 automated tests passed in the latest verification.
 
