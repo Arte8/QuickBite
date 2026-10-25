@@ -10,7 +10,3 @@ ipykernel==6.29.5
 scipy==1.15.3
 
 
-conda env create -f environment.yml
-conda activate lab05-late-deliveries
-python -m pip install -r requirements.txt
-python -m pip install -e .
