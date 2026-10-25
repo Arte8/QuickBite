@@ -7,6 +7,8 @@ This project predicts whether a QuickBite food delivery order will arrive more t
 Create the Conda environment using the `conda-forge` channel specified in `environment.yml`:
 
 ```bash
+git clone https://github.com/Arte8/QuickBite
+cd Quickbite
 conda env create -f environment.yml
 conda activate lab05-late-deliveries
 python -m pip install -r requirements.txt
