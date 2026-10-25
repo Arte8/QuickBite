@@ -15,6 +15,11 @@ python -m pip install -r requirements.txt
 python -m pip install -e .
 
 ```
+## Run
+
+```bash
+python -m latedeliveries.train
+```
 
 The project uses Python 3.11. The requirements include scikit-learn, pandas, matplotlib, pytest, Ruff, and ipykernel.
 
@@ -34,11 +39,7 @@ The project uses Python 3.11. The requirements include scikit-learn, pandas, mat
 | `order_id` | Identifier, not a useful predictor | Exclude |
 | `late` | Target variable being predicted | Exclude |
 
-## Run
 
-```bash
-python -m latedeliveries.train
-```
 
 This command generates the synthetic dataset, compares classification models, performs hyperparameter tuning, selects a cost-based threshold, evaluates the final model, and saves the outputs.
 
